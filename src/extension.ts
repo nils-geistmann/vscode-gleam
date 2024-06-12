@@ -1,12 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import { workspace } from "vscode";
+import { TestItem, TestRunProfileKind, workspace } from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
 } from "vscode-languageclient/node";
+import { Resolver } from "./test/resolver";
+import { Runner } from "./test/runner";
 
 const enum GleamCommands {
   RestartServer = "gleam.restartServer",
@@ -46,9 +48,16 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(restartCommand);
 
+
   client = await createLanguageClient();
   // Start the client. This will also launch the server
   client?.start();
+
+  const testController = vscode.tests.createTestController('gleamLangTests', 'Gleam Tests');
+  new Resolver(testController);
+  new Runner(testController, <string>await getGleamCommandPath());
+
+  context.subscriptions.push(testController);
 }
 
 // this method is called when your extension is deactivated

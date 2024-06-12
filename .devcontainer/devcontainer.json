@@ -1,0 +1,21 @@
+{
+    "name": "vscode-gleam",
+    "image": "ghcr.io/gleam-lang/gleam:v1.2.1-erlang",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "files.autoSave": "onFocusChange",
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/nils-geistmann/devcontainers-features/create-remote-user:0": {},
+        "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
+            "theme": "agnoster",
+            "plugins": "git"
+        }
+    },
+    "remoteUser": "vscodegleam"
+}
